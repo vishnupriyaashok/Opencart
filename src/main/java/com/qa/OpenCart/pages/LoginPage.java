@@ -26,8 +26,8 @@ public class LoginPage {
 	private By forgotPwd = By.linkText("Forgotten Password");
 	private By register = By.linkText("Register");
 	private By footerList = By.xpath("//div[@class='col-sm-3']//a");
-	private By loginErrorMessg=By.cssSelector("div.alert.alert-danger.alert-dismissible");
-
+	private By loginErrorMessg = By.cssSelector("div.alert.alert-danger.alert-dismissible");
+	private By contactUs = By.linkText(("contactus"));
 	// 2.public constructor
 
 	public LoginPage(WebDriver driver) {
@@ -58,20 +58,18 @@ public class LoginPage {
 		eleUtil.doClick(loginBtn);
 		return new AccountsPage(driver);
 	}
-	
-	public boolean inValidLogin(String userName,String pasWord) {
+
+	public boolean inValidLogin(String userName, String pasWord) {
 		eleUtil.waitForElementsToBeVisible(emailID, Constants.DEFAULT_TIME_OUT);
 		eleUtil.doSendKeys(password, pasWord);
 		eleUtil.doClick(loginBtn);
-		String actErrorMessage=eleUtil.doElementGetText(loginErrorMessg);
+		String actErrorMessage = eleUtil.doElementGetText(loginErrorMessg);
 		System.out.println(actErrorMessage);
-		if(actErrorMessage.contains(AppErrors.LOGIN_PAGE_ERROR_MESSAGE)) {
+		if (actErrorMessage.contains(AppErrors.LOGIN_PAGE_ERROR_MESSAGE)) {
 			return true;
 		}
 		return false;
 	}
-	
-	
 
 	@Step("checking register link exist or not")
 	public boolean isRegisterLinkExist() {
