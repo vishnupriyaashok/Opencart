@@ -27,7 +27,8 @@ public class LoginPage {
 	private By register = By.linkText("Register");
 	private By footerList = By.xpath("//div[@class='col-sm-3']//a");
 	private By loginErrorMessg = By.cssSelector("div.alert.alert-danger.alert-dismissible");
-	private By contactUs = By.linkText(("contactus"));
+	private By contactUs = By.linkText(("contactus11"));
+	private By contactUs1 = By.linkText(("contactus11"));
 	// 2.public constructor
 
 	public LoginPage(WebDriver driver) {
