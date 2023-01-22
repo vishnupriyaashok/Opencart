@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -14,6 +16,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.qa.OpenCart.utilities.AppErrors;
@@ -47,18 +50,28 @@ public class DriverFactory {
 
 		if (browserName.equalsIgnoreCase(Browser.CHROME_BROWSER_VALUE)) {
 
-			WebDriverManager.chromedriver().setup();
-			// System.setProperty(Browser.CHROME_DRIVER_BINARY_KEY,
-			// Browser.CHROME_DRIVER_PATH);
-			// driver = new ChromeDriver(optionsManager.getChromeOptions());
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			if (Boolean.parseBoolean(prop.getProperty("remote"))){
+				initRemoteWebDriver(Browser.CHROME_BROWSER_VALUE);
+			} else {// local execution
+				WebDriverManager.chromedriver().setup();
+				// System.setProperty(Browser.CHROME_DRIVER_BINARY_KEY,
+				// Browser.CHROME_DRIVER_PATH);
+				// driver = new ChromeDriver(optionsManager.getChromeOptions());
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+
+			}
 
 		} else if (browserName.equalsIgnoreCase(Browser.FIREFOX_BROWSER_VALUE)) {
-			WebDriverManager.firefoxdriver().setup();
-			// System.setProperty(Browser.GECKO_DRIVER_BINARY_KEY,
-			// Browser.FIREFOX_DRIVER_PATH);
-			// driver = new FirefoxDriver(optionsManager.getFireFoxOptions());
-			tlDriver.set(new FirefoxDriver(optionsManager.getFireFoxOptions()));
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				initRemoteWebDriver(Browser.FIREFOX_BROWSER_VALUE);
+			} else {
+				WebDriverManager.firefoxdriver().setup();
+				// System.setProperty(Browser.GECKO_DRIVER_BINARY_KEY,
+				// Browser.FIREFOX_DRIVER_PATH);
+				// driver = new FirefoxDriver(optionsManager.getFireFoxOptions());
+				tlDriver.set(new FirefoxDriver(optionsManager.getFireFoxOptions()));
+
+			}
 
 		} else if (browserName.equalsIgnoreCase(Browser.SAFARI_BROWSER_VALUE)) {
 			// driver = new SafariDriver();
@@ -81,7 +94,32 @@ public class DriverFactory {
 	public static WebDriver getDriver() {
 		return tlDriver.get();
 	}
+	/*
+	 * This method is used to run test cases on (Docker)
+	 */
 
+	private void initRemoteWebDriver(String browserName) {
+		System.out.println("Runnings test cases on Selenoid Grid Server " + browserName);
+		if (browserName.equalsIgnoreCase("chrome")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getChromeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} else if (browserName.equalsIgnoreCase("firefox")) {
+			if (browserName.equalsIgnoreCase("firefox")) {
+				try {
+					tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),
+							optionsManager.getFireFoxOptions()));
+				} catch (MalformedURLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+	}
 	/*
 	 * This method is used to initialize the properties on the basis of given
 	 * Environment: Environment:QA/DEV/STAGE/PROD
@@ -128,8 +166,8 @@ public class DriverFactory {
 					break;
 				default:
 					log.error("Please pass the right environment");
-					//log.warn("Please pass the right environment");
-					//System.out.println("Please pass the right environment" + envName);
+					// log.warn("Please pass the right environment");
+					// System.out.println("Please pass the right environment" + envName);
 					break;
 				}
 			} catch (Exception e) {

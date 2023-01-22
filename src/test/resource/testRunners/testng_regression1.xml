@@ -7,10 +7,19 @@
 		<listener class-name="com.qa.OpenCart.listners.TestAllureListener" />
 		<listener class-name="com.qa.OpenCart.listners.AnnotationTransformer" />
 
-
 	</listeners>
 
-	<test name="Open Cart Login Page Test">
+	<test name="Open Cart Login Page Test -chrome">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="89.0" />
+		<classes>
+			<class name="com.qa.OpenCart.tests.LoginPageTest" />
+		</classes>
+	</test>
+
+	<test name="Open Cart Login Page Test -firefox">
+		<parameter name="browser" value="firefox" />
+		<parameter name="browserversion" value="91.0" />
 		<classes>
 			<class name="com.qa.OpenCart.tests.LoginPageTest" />
 		</classes>
@@ -22,22 +31,27 @@
 		</classes>
 	</test!-->
 
-	<test name="Open Cart Accounts Page Test">
+	<!--test name="Open Cart Accounts Page Test -chrome">
+		<parameter name="browser" value="chrome"/>
+        <parameter name="browserversion" value="91.0" />
 		<classes>
 			<class name="com.qa.OpenCart.tests.AccountPageTest" />
 		</classes>
-	</test>
+	</test!-->
 
-	<test name="Open Cart Product Information Page Test">
+	<!--test name="Open Cart Product Information Page Test -firefox">
+		<parameter name="browser" value="firefox" />
+
 		<classes>
 			<class name="com.qa.OpenCart.tests.ProductInfoPageTests" />
 		</classes>
-	</test>
+	</test!-->
 
-	<test name="Open Cart Registration Page Test">
+	<!--test name="Open Cart Registration Page Test -firefox">
+		<parameter name="browser" value="firefox" />
 		<classes>
 			<class name="com.qa.OpenCart.tests.RegistrationPageTests" />
 		</classes>
-	</test>
+	</test!-->
 
 </suite>
