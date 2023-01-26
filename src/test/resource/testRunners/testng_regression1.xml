@@ -19,7 +19,7 @@
 
 	<test name="Open Cart Login Page Test -firefox">
 		<parameter name="browser" value="firefox" />
-		<parameter name="browserversion" value="91.0" />
+		<parameter name="browserversion" value="83.0" />
 		<classes>
 			<class name="com.qa.OpenCart.tests.LoginPageTest" />
 		</classes>

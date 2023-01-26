@@ -130,11 +130,11 @@ public class DriverFactory {
 		prop = new Properties();
 		FileInputStream ip = null;
 		String envName = System.getProperty("env");
-		// System.out.println("Running tests on the environment " + envName);
+		System.out.println("Running tests on the environment " + envName);
 		log.info("Running tests on the environment " + envName);
 		if (envName == null) {
 			log.info("No environment given, hence running on QA");
-			// System.out.println("No environment given, hence running on QA");
+			 System.out.println("No environment given, hence running on QA");
 			try {
 				ip = new FileInputStream(".\\src\\test\\resource\\config\\qa.config.properties");
 			} catch (FileNotFoundException e) {
